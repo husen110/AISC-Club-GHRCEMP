@@ -1,0 +1,151 @@
+Lab Assignment 5 - Tableau Superstore Dashboard (Python companion)
+Python libraries : pandas 3.0.5 | matplotlib 3.11.2
+Run on           : 2026-10-26 21:35:07
+
+======================================================================
+STEP 1 : Import 'Sample - Superstore.csv' and inspect data types
+======================================================================
+>> Dataset loaded successfully.
+>> Shape (rows x columns): (9994, 21)
+
+>> Column data types (pandas vs Tableau):
+                 pandas dtype                     Tableau data type Tableau role  unique values
+Row ID                  int64                   #    Number (whole)    Dimension           9994
+Order ID                  str                           Abc  String    Dimension           5009
+Order Date     datetime64[us]                                  Date    Dimension           1236
+Ship Date      datetime64[us]                                  Date    Dimension           1334
+Ship Mode                 str                           Abc  String    Dimension              4
+Customer ID               str                           Abc  String    Dimension            793
+Customer Name             str                           Abc  String    Dimension            793
+Segment                   str                           Abc  String    Dimension              3
+Country                   str         Abc  String (geographic role)    Dimension              1
+City                      str         Abc  String (geographic role)    Dimension            531
+State                     str         Abc  String (geographic role)    Dimension             49
+Postal Code           float64  Abc  String (set geo role: ZIP Code)    Dimension            630
+Region                    str                           Abc  String    Dimension              4
+Product ID                str                           Abc  String    Dimension           1862
+Category                  str                           Abc  String    Dimension              3
+Sub-Category              str                           Abc  String    Dimension             17
+Product Name              str                           Abc  String    Dimension           1850
+Sales                 float64                 #    Number (decimal)      Measure           5825
+Quantity                int64                   #    Number (whole)      Measure             14
+Discount              float64                 #    Number (decimal)      Measure             12
+Profit                float64                 #    Number (decimal)      Measure           7287
+
+>> Missing values (non-zero only):
+Postal Code    11
+dtype: int64
+
+>> Order Date range : 03-Jan-2015 to 30-Dec-2018
+>> Total Sales      : $2,297,200.86
+>> Total Profit     : $286,397.02
+>> Profit ratio     : 12.47%
+
+======================================================================
+STEP 2 : Worksheet 1 - Bar chart: total Sales and Profit by Region
+======================================================================
+>> SUM(Sales) and SUM(Profit) per Region (what Tableau should show):
+             Sales     Profit  Profit Ratio %
+Region                                       
+West     725457.82  108418.45           14.94
+East     678781.24   91522.78           13.48
+Central  501239.89   39706.36            7.92
+South    391721.90   46749.43           11.93
+>> Plot saved to: plots/1_sheet_region_bar.png
+>> Interpretation: West has the highest sales and profit; Central has the lowest profit ratio (7.9%).
+
+======================================================================
+STEP 3 : Worksheet 2 - Line chart: Sales by month and year
+======================================================================
+>> SUM(Sales) and SUM(Profit) per YEAR(Order Date):
+          Sales    Profit  Sales growth %
+Year                                     
+2015  484247.50  49543.97             NaN
+2016  470532.51  61618.60           -2.83
+2017  609205.60  81795.17           29.47
+2018  733215.26  93439.27           20.36
+
+>> Continuous MONTH(Order Date) series: 48 months; peaks and lows:
+   Highest month : Nov 2018 ($118,447.82)
+   Lowest month  : Feb 2015 ($4,519.89)
+
+>> Sales by month (rows) and year (columns), in USD:
+Year      2015     2016     2017      2018
+Month                                     
+1      14237.0  18174.0  18542.0   43971.0
+2       4520.0  11951.0  22979.0   20301.0
+3      55691.0  38726.0  51716.0   58872.0
+4      28295.0  34195.0  38750.0   36522.0
+5      23648.0  30132.0  56988.0   44261.0
+6      34595.0  24797.0  40345.0   52982.0
+7      33946.0  28765.0  39262.0   45264.0
+8      27909.0  36898.0  31115.0   63121.0
+9      81777.0  64596.0  73410.0   87867.0
+10     31453.0  31405.0  59688.0   77777.0
+11     78629.0  75973.0  79412.0  118448.0
+12     69546.0  74920.0  96999.0   83829.0
+>> Plot saved to: plots/2_sheet_monthly_sales_line.png
+>> Interpretation: sales dipped 2.8% in 2016, then grew strongly in 2017 and 2018.
+   Clear seasonal pattern: low in Jan/Feb, highest in Sep, Nov and Dec.
+
+======================================================================
+STEP 4 : Worksheet 3 - Geographic (State map) and Segment (scatter) breakdowns
+======================================================================
+>> Filled map values: 49 states. Top 10 states by SUM(Sales):
+                  Sales    Profit
+State                            
+California    457687.63  76381.39
+New York      310876.27  74038.55
+Texas         170188.05 -25729.36
+Washington    138641.27  33402.65
+Pennsylvania  116511.91 -15559.96
+Florida        89473.71  -3399.30
+Illinois       80166.10 -12607.89
+Ohio           78258.14 -16971.38
+Michigan       76269.61  24463.19
+Virginia       70636.72  18597.95
+
+>> 5 states with the largest losses (shown red if Profit is on Color):
+                    Sales    Profit
+State                              
+Texas           170188.05 -25729.36
+Ohio             78258.14 -16971.38
+Pennsylvania    116511.91 -15559.96
+Illinois         80166.10 -12607.89
+North Carolina   55603.16  -7490.91
+
+>> Segment breakdown:
+                  Sales     Profit  Customers
+Segment                                      
+Consumer     1161401.34  134119.21        409
+Corporate     706146.37   91979.13        236
+Home Office   429653.15   60298.68        148
+
+>> Scatter plot: one mark per customer (793 marks), x = SUM(Sales), y = SUM(Profit), color = Segment
+>> Plot saved to: plots/3_sheet_state_sales_top10.png
+>> Plot saved to: plots/4_sheet_segment_scatter.png
+>> Interpretation: California and New York lead sales; Texas loses the most money.
+
+======================================================================
+STEP 5 : Dashboard preview - all regions vs Region = 'West' selected
+======================================================================
+>> Plot saved to: plots/5_dashboard_all_regions.png
+
+>> After clicking the 'West' bar (Filter action), the other sheets show:
+   Order lines       : 3,203
+   Total Sales       : $725,457.82
+   Total Profit      : $108,418.45
+   Customers in West : 686
+   States in West    : 11
+>> Plot saved to: plots/6_dashboard_filtered_west.png
+
+======================================================================
+STEP 6 : Lab Assignment 5 companion script completed
+======================================================================
+Files generated:
+  - plots/1_sheet_region_bar.png
+  - plots/2_sheet_monthly_sales_line.png
+  - plots/3_sheet_state_sales_top10.png
+  - plots/4_sheet_segment_scatter.png
+  - plots/5_dashboard_all_regions.png
+  - plots/6_dashboard_filtered_west.png
