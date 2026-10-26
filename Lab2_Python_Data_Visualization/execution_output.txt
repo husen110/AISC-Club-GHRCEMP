@@ -1,0 +1,109 @@
+Lab Assignment 2 - Python Data Visualization (Matplotlib, Pandas, Seaborn)
+Python libraries : matplotlib 3.11.2 | pandas 3.0.5 | seaborn 0.13.2
+Run on           : 2026-10-26 21:28:08
+
+======================================================================
+STEP 1 : Load the 'tips' dataset from Seaborn
+======================================================================
+>> Dataset loaded successfully.
+>> Shape (rows x columns): (244, 7)
+
+>> Column data types:
+total_bill     float64
+tip            float64
+sex           category
+smoker        category
+day           category
+time          category
+size             int64
+dtype: object
+
+>> First 5 rows:
+   total_bill   tip     sex smoker  day    time  size
+0       16.99  1.01  Female     No  Sun  Dinner     2
+1       10.34  1.66    Male     No  Sun  Dinner     3
+2       21.01  3.50    Male     No  Sun  Dinner     3
+3       23.68  3.31    Male     No  Sun  Dinner     2
+4       24.59  3.61  Female     No  Sun  Dinner     4
+
+>> Missing values per column:
+total_bill    0
+tip           0
+sex           0
+smoker        0
+day           0
+time          0
+size          0
+dtype: int64
+
+>> Summary of continuous variables:
+       total_bill     tip    size
+count      244.00  244.00  244.00
+mean        19.79    3.00    2.57
+std          8.90    1.38    0.95
+min          3.07    1.00    1.00
+25%         13.35    2.00    2.00
+50%         17.80    2.90    2.00
+75%         24.13    3.56    3.00
+max         50.81   10.00    6.00
+
+======================================================================
+STEP 2 : Matplotlib Scatter Plot: total_bill vs tip (colored by sex)
+======================================================================
+>> Pearson correlation between total_bill and tip: r = 0.6757
+>> Plot customization used:
+   Male   -> color = royalblue, marker = 'o', points = 157
+   Female -> color = crimson  , marker = '^', points = 87
+>> Plot saved to: plots/1_matplotlib_scatter_bill_vs_tip.png
+>> Interpretation: positive relationship - larger bills generally receive larger tips.
+
+======================================================================
+STEP 3 : Pandas groupby('day') + Horizontal Bar Chart (.plot(kind='barh'))
+======================================================================
+>> Code: tips.groupby('day').agg(count, mean total_bill, mean tip)
+>> Grouped result:
+      num_bills  avg_total_bill  avg_tip
+day                                     
+Thur         62           17.68     2.77
+Fri          19           17.15     2.73
+Sat          87           20.44     2.99
+Sun          76           21.41     3.26
+
+>> Series plotted (average tip per day):
+day
+Thur    2.77
+Fri     2.73
+Sat     2.99
+Sun     3.26
+Name: avg_tip, dtype: float64
+>> Plot saved to: plots/2_pandas_barh_avg_tip_by_day.png
+>> Interpretation: highest average tip on Sun ($3.26), lowest on Fri ($2.73).
+
+======================================================================
+STEP 4 : Seaborn Boxplot: total_bill by day, hue = sex (3rd dimension)
+======================================================================
+>> Median total_bill for each day and sex:
+sex    Male  Female
+day                
+Thur  16.98   13.78
+Fri   17.22   15.38
+Sat   18.24   18.36
+Sun   20.72   17.41
+
+>> Outliers detected (beyond 1.5 * IQR) in each day/sex group:
+   Thur Male  : [41.19]
+   Thur Female: [29.8, 34.83, 43.11]
+   Sat  Male  : [48.27, 48.33, 50.81]
+   Sat  Female: [44.3]
+   Sun  Male  : [45.35, 48.17]
+>> Plot saved to: plots/3_seaborn_boxplot_bill_by_day_sex.png
+>> Interpretation: weekend (Sat/Sun) bills are higher and more spread out;
+   male customers have higher median bills on 3 of the 4 days.
+
+======================================================================
+STEP 5 : Lab Assignment 2 completed
+======================================================================
+Files generated:
+  - plots/1_matplotlib_scatter_bill_vs_tip.png
+  - plots/2_pandas_barh_avg_tip_by_day.png
+  - plots/3_seaborn_boxplot_bill_by_day_sex.png
