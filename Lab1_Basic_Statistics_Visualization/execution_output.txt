@@ -1,0 +1,156 @@
+Lab Assignment 1 - Basic Statistics & Visualization in R
+R version : R version 4.3.3 (2024-02-29) 
+Run on    : 2026-10-26 21:07:32 
+
+======================================================================
+STEP 1 : Load the built-in 'mtcars' dataset
+======================================================================
+>> Dataset loaded successfully.
+>> Dimensions (rows x columns): 32 x 11 
+
+>> Structure of the dataset:
+'data.frame':	32 obs. of  11 variables:
+ $ mpg : num  21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...
+ $ cyl : num  6 6 4 6 8 6 8 4 4 6 ...
+ $ disp: num  160 160 108 258 360 ...
+ $ hp  : num  110 110 93 110 175 105 245 62 95 123 ...
+ $ drat: num  3.9 3.9 3.85 3.08 3.15 2.76 3.21 3.69 3.92 3.92 ...
+ $ wt  : num  2.62 2.88 2.32 3.21 3.44 ...
+ $ qsec: num  16.5 17 18.6 19.4 17 ...
+ $ vs  : num  0 0 1 1 0 1 0 1 1 1 ...
+ $ am  : num  1 1 1 0 0 0 0 0 0 0 ...
+ $ gear: num  4 4 4 3 3 3 3 4 4 4 ...
+ $ carb: num  4 4 1 1 2 1 4 2 2 4 ...
+
+>> First 6 rows:
+                   mpg cyl disp  hp drat    wt  qsec vs am gear carb
+Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
+
+>> Missing values per column:
+ mpg  cyl disp   hp drat   wt qsec   vs   am gear carb 
+   0    0    0    0    0    0    0    0    0    0    0 
+
+======================================================================
+STEP 2 : Summary statistics (Mean, Median, SD, Variance, IQR)
+======================================================================
+>> Key numerical attributes selected: mpg, hp, wt, disp, qsec 
+   mpg  = Miles per gallon
+   hp   = Gross horsepower
+   wt   = Weight (1000 lbs)
+   disp = Displacement (cu. in.)
+   qsec = 1/4 mile time (seconds)
+
+>> 2a. Built-in summary() output:
+      mpg              hp              wt             disp      
+ Min.   :10.40   Min.   : 52.0   Min.   :1.513   Min.   : 71.1  
+ 1st Qu.:15.43   1st Qu.: 96.5   1st Qu.:2.581   1st Qu.:120.8  
+ Median :19.20   Median :123.0   Median :3.325   Median :196.3  
+ Mean   :20.09   Mean   :146.7   Mean   :3.217   Mean   :230.7  
+ 3rd Qu.:22.80   3rd Qu.:180.0   3rd Qu.:3.610   3rd Qu.:326.0  
+ Max.   :33.90   Max.   :335.0   Max.   :5.424   Max.   :472.0  
+      qsec      
+ Min.   :14.50  
+ 1st Qu.:16.89  
+ Median :17.71  
+ Mean   :17.85  
+ 3rd Qu.:18.90  
+ Max.   :22.90  
+
+>> 2b. Calculating each statistic individually (example: mpg):
+   mean(mtcars$mpg)   = 20.091 
+   median(mtcars$mpg) = 19.2 
+   sd(mtcars$mpg)     = 6.027 
+   var(mtcars$mpg)    = 36.324 
+   IQR(mtcars$mpg)    = 7.375 
+
+>> 2c. Descriptive statistics table for all key attributes:
+        Mean  Median Std_Dev  Variance     IQR    Min     Max
+mpg   20.091  19.200   6.027    36.324   7.375 10.400  33.900
+hp   146.688 123.000  68.563  4700.867  83.500 52.000 335.000
+wt     3.217   3.325   0.978     0.957   1.029  1.513   5.424
+disp 230.722 196.300 123.939 15360.800 205.175 71.100 472.000
+qsec  17.849  17.710   1.787     3.193   2.008 14.500  22.900
+
+>> Statistics table saved to: summary_statistics.csv
+
+======================================================================
+STEP 3 : Histogram of Miles Per Gallon (mpg)
+======================================================================
+>> Histogram bins (class intervals) and frequencies:
+       Bin Frequency
+1 (10, 15]         6
+2 (15, 20]        12
+3 (20, 25]         8
+4 (25, 30]         2
+5 (30, 35]         4
+>> Plot saved to: plots/1_histogram_mpg.png 
+>> Interpretation: mean (20.09) > median (19.2), so the mpg distribution is slightly right-skewed.
+
+======================================================================
+STEP 4 : Boxplot of Horsepower (hp) grouped by Number of Cylinders (cyl)
+======================================================================
+>> Number of cars in each cylinder group:
+cyl
+ 4  6  8 
+11  7 14 
+
+>> Five-number summary of hp for each cylinder group:
+$`4`
+[1]  52.0  65.5  91.0  96.0 113.0
+
+$`6`
+[1] 105 110 110 123 175
+
+$`8`
+[1] 150.0 175.0 192.5 245.0 335.0
+
+
+>> Outliers detected (values beyond 1.5 * IQR from the box):
+             cyl  hp  mpg   wt
+Ferrari Dino   6 175 19.7 2.77
+>> Plot saved to: plots/2_boxplot_hp_by_cyl.png 
+
+======================================================================
+STEP 5 : Scatter Plot of Weight (wt) vs Miles Per Gallon (mpg) + Trend Line
+======================================================================
+>> Pearson correlation between wt and mpg: r = -0.8677 
+
+>> Fitting linear regression model: lm(mpg ~ wt)
+
+Call:
+lm(formula = mpg ~ wt, data = mtcars)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-4.5432 -2.3647 -0.1252  1.4096  6.8727 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  37.2851     1.8776  19.858  < 2e-16 ***
+wt           -5.3445     0.5591  -9.559 1.29e-10 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 3.046 on 30 degrees of freedom
+Multiple R-squared:  0.7528,	Adjusted R-squared:  0.7446 
+F-statistic: 91.38 on 1 and 30 DF,  p-value: 1.294e-10
+
+>> Trend line equation: mpg = 37.285 + (-5.344) * wt
+>> R-squared = 0.7528
+>> Plot saved to: plots/3_scatter_wt_vs_mpg.png 
+>> Interpretation: strong negative relationship - heavier cars give lower mpg.
+   Each extra 1000 lbs reduces mpg by about 5.34 miles per gallon.
+
+======================================================================
+STEP 6 : Lab Assignment 1 completed
+======================================================================
+Files generated:
+  - summary_statistics.csv
+  - plots/1_histogram_mpg.png
+  - plots/2_boxplot_hp_by_cyl.png
+  - plots/3_scatter_wt_vs_mpg.png
